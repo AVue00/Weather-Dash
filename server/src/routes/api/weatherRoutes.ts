@@ -6,28 +6,30 @@ import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
 
 // TODO: POST Request with city name to retrieve weather data
-router.post('/', (req: Request, res: Response) => {
-  // TODO: GET weather data from city name
-  router.get('/', (req: Request, res: Response) => {
-    WeatherService.getWeatherForCity()
-    .then((data) => res.json(data));
-  })
+router.post('/', async (req: Request, res: Response) => {
+  const cityName: string = req.body.cityName;
   // TODO: save city to search history
-  const cityname: string = req.body.cityName
-  WeatherService.getWeatherForCity(cityname)
-  .then((data) => {
-    HistoryService.addCity(cityname)
-    res.json(data)
-  })
+  await HistoryService.addCity(cityName)
+  const weatherData = await WeatherService.getWeatherForCity(cityName)
+  // .then((data) => {
+  //   HistoryService.addCity(cityName)
+  //   res.json(data)
+  // })
+  console.log('Weatherdata',weatherData)
+  res.json(weatherData);
 });
 
 // TODO: GET search history
-router.get('/history', async (_req: Request, _res: Response) => {
-  HistoryService.getCities()
-  .then((data) => res.json(data);)
+router.get('/history', async (_req: Request, res: Response) => {
+  const data = await HistoryService.getCities();
+  return res.json(data);
 });
 
 // * BONUS TODO: DELETE city from search history
-router.delete('/history/:id', async (_req: Request, _res: Response) => {});
+router.delete('/history/:id', async (req: Request, res: Response) => {
+  const id = req.params.id;
+  await HistoryService.removeCity(id);
+  return res.json({ message: 'City removed from history' });
+});
 
 export default router;

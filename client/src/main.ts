@@ -40,9 +40,9 @@ const fetchWeather = async (cityName: string) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ cityName }),
+    body: JSON.stringify( { cityName } ),
   });
-
+  console.log('response: ', response);
   const weatherData = await response.json();
 
   console.log('weatherData: ', weatherData);
