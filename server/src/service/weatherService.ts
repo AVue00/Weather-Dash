@@ -92,7 +92,6 @@ class WeatherService {
 //   // TODO: Build parseCurrentWeather method
   private parseCurrentWeather(response: any) {
     console.log('response', response);
-    // const formattedDate = new Date(response.dt_txt).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'});
     const dayjsdate = dayjs(response.dt_txt).format('MM/DD/YYYY');
     return new Weather(
       this.cityName,
@@ -117,9 +116,6 @@ class WeatherService {
 
     return weatherForecast;
   }
-  // todo: figure out how to remove all of the forecast data except for the 12:00:00 weather data
-  // todo: buildForecastArray needs to return an array that has 6 weather objects in it.
-  // todo: use day.js to format date
 //   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string) {
     try {
